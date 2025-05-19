@@ -11,185 +11,29 @@
 
 Правила и процедуры идентификации и аутентификации пользователей должны быть описаны в организационно-распорядительных документах по защите информации у заказчика.
 
-<table>
-    <thead style="font-weight: bold; font-size: 12px;">
-        <tr>
-            <td>№</td>
-            <td>Интерфейс</td>
-            <td>Назначение</td>
-            <td>Тип интерфейса</td>
-            <td>Справка</td>
-        </tr>
-    </thead>
-    <tbody style="font-size: 12px;">
-        <tr>
-            <td colspan="5" style="text-align: center; font-weight: bold;">Локальные пользователи</td>
-        <tr>
-        <tr>
-            <td>1.</td>
-            <td>/bin/login</td>
-            <td>Старт интерактивной сессии.<br>Запускается только в сессии без графического интерфейса.</td>
-            <td>Команда.</td>
-            <td>login(1)</td>
-        </tr>
-        <tr>
-            <td>2.</td>
-            <td>/usr/bin/id<br>/usr/bin/groups</td>
-            <td>Отображает текущий, реальный или эффективный идентификатор и идентификатор группы, в которые входит пользователь.</td>
-            <td>Команды.</td>
-            <td>id(1)<br>groups(1)</td>
-        </tr>
-        <tr>
-            <td>3.</td>
-            <td>/bin/su<br>/usr/bin/sudo</td>
-            <td>Смена пользователей и повышение привилегий.</td>
-            <td>Команды.</td>
-            <td>su(1)<br>sudo(8)<br>runas(1)</td>
-        </tr>
-        <tr>
-            <td>4.</td>
-            <td>/etc/shadow<br>/etc/shadow-<br>/etc/tcb/[user]/shadow<br>/etc/gshadow<br>/etc/gshadow-</td>
-            <td>БД паролей и атрибутов субъектов доступа. В данном случае атрибутом аутентификационной информации являются пароли для учётных записей пользователей.</td>
-            <td>Конфигурационные файлы.</td>
-            <td>shadow(5)</td>
-        </tr>
-        <tr>
-            <td>5.</td>
-            <td>getresuid()<br>getresgid()<br>getuid()<br>geteuid()<br>setuid()<br>setgid()<br>setegid()<br>setregid()</td>
-            <td>Получение или установка текущего реального или эффективного идентификатора пользователя или группы, в которой состоит пользователь. Обеспечение связывания пользователь-субъект.</td>
-            <td>Программа.<br>Системные вызовы и библиотечные функции.</td>
-            <td>getresuid(2)<br>getresgid(2)<br>getuid(2)<br>geteuid(2)<br>setuid(2)<br>setgid(2)<br>setegid(2)<br>setregid(2)</td>
-        </tr>
-        <tr>
-            <td>6.</td>
-            <td>/usr/sbin/passwd</td>
-            <td>Обеспечение проверки и манипуляций с аутентификационной информацией.</td>
-            <td>Команда.</td>
-            <td>passwd(1, 8)</td>
-        </tr>
-        <tr>
-            <td>7.</td>
-            <td>/etc/pam.d/*<br>/usr/lib64/security/pam*.so</td>
-            <td>Реализация модулей управления типами и политиками аутентификации и файлы конфигурации этих модулей и политик.</td>
-            <td>Конфигурационные файлы и разделяемые библиотеки.</td>
-            <td>pam(5)<br>pam(8)<br>pam_unix(8)<br>pam_tcb(8)</td>
-        </tr>
-        <tr>
-            <td>8.</td>
-            <td>/lib64/security/pam*.so</td>
-            <td>PAM-модули.</td>
-            <td>Библиотеки.</td>
-            <td>pam(8)</td>
-        </tr>
-        <tr>
-            <td colspan="5" style="text-align: center; font-weight: bold;">Доменные пользователи</td>
-        <tr>
-        <tr>
-            <td>1.</td>
-            <td>/etc/sssd/sssd.conf<br>/etc/krb5.conf</td>
-            <td><b>SSSD:</b> Настройка подключения к AD/LDAP, Kerberos и GPO. Кэширование учётных данных, авторизация через GPO/LDAP/HBAC.</td>
-            <td>Конфигурационные файлы.</td>
-            <td>sssd(8)<br>kerberos(7)</td>
-        </tr>
-        <tr>
-            <td>2.</td>
-            <td>/lib64/security/pam_sss.so<br>/lib64/security/pam_krb5.so<br>/lib64/security/pam_ldap.so</td>
-            <td><b>SSSD:</b> PAM-модули для аутентификации через AD/LDAP/Kerberos, интеграция с GPO.</td>
-            <td>Модули PAM.</td>
-            <td>pam_sss(8)<br>pam_krb5(5)</td>
-        </tr>
-        <tr>
-            <td>3.</td>
-            <td>/var/lib/sss/db/cache_<домен>.ldb</td>
-            <td><b>SSSD:</b> Кэш авторизационных данных, GPO, тикетов Kerberos.</td>
-            <td>Внутренний кэш.</td>
-            <td>sss_cache(8)</td>
-        </tr>
-        <tr>
-            <td>4.</td>
-            <td>/etc/samba/smb.conf<br>/etc/nsswitch.conf<br>/etc/krb5.conf</td>
-            <td><b>Winbind:</b> Настройка Kerberos-аутентификации, сопоставления SID-UID, поддержка offline входа, GPO (через gpupdate).</td>
-            <td>Конфигурационные файлы.</td>
-            <td>smb.conf(5)<br>nsswitch.conf(5)<br>krb5.conf(5)</td>
-        </tr>
-        <tr>
-            <td>5.</td>
-            <td>/lib64/security/pam_winbind.so<br>/usr/lib64/nss_winbind.so</td>
-            <td><b>Winbind:</b> PAM и NSS-интерфейсы, авторизация по SID через RPC и Kerberos/NTLM.</td>
-            <td>Модули PAM.</td>
-            <td>pam_winbind(8)</td>
-        </tr>
-        <tr>
-            <td>6.</td>
-            <td>/var/lib/samba/*.tdb</td>
-            <td><b>Winbind:</b> TDB-файлы с SID, UID/GID, SID-Map (winbindd_cache.tdb, idmap.tdb).</td>
-            <td>Внутренний кэш.</td>
-            <td>samba(7)</td>
-        </tr>
-        <tr>
-            <td>7.</td>
-            <td>/usr/bin/gpupdate<br>/usr/sbin/gpoa<br>/lib64/security/pam_oddjob_gpupdate.so</td>
-            <td><b>GPO:</b> Применение групповых политик доступа (GPO) при входе через Winbind/SSSD.</td>
-            <td>Команды.<br>Модули PAM.</td>
-            <td>pam_oddjob_gpupdate(8)</td>
-        </tr>
-        <tr>
-            <td colspan="5" style="text-align: center; font-weight: bold;">Графическая среда (MATE)</td>
-        <tr>
-        <tr>
-            <td>1.</td>
-            <td>/usr/share/lightdm/lightdm.conf.d/*.conf<br>/etc/lightdm/lightdm.conf.d/*.conf<br>/etc/lightdm/lightdm.conf</td>
-            <td>Настройка дисплейного менеджера LightDM.</td>
-            <td>Конфигурационные файлы.</td>
-            <td>lightdm(1)</td>
-        </tr>
-        <tr>
-            <td colspan="5" style="text-align: center; font-weight: bold;">Смарт-карты и токены (PKCS#11)</td>
-        <tr>
-        <tr>
-            <td>1.</td>
-            <td>/usr/sbin/control pam-pkcs11-profile<br>/usr/sbin/control pam-pkcs11-param-set<br>/usr/sbin/control pam-pkcs11-mapping</td>
-            <td><b>Утилиты настройки pam_pkcs11:</b> выбор профиля железа, логики сопоставления пользователей, параметров поведения и сообщений</td>
-            <td>Команды.</td>
-            <td><a href="https://www.altlinux.org/Pkcs11-profiles">Alt Wiki: Pkcs11-profiles</td>
-        </tr>
-        <tr>
-            <td>2.</td>
-            <td>/lib64/security/pam_pkcs11.so</td>
-            <td>PAM-модули для аутентификации по смарт-картам и токенам (PKCS#11, X.509).</td>
-            <td>Модули PAM.</td>
-            <td>pam_pkcs11(8)</td>
-        </tr>
-        <tr>
-            <td>3.</td>
-            <td>/etc/security/pam_pkcs11<br>/etc/security/cacerts<br>/etc/security/crls<br>$HOME/.eid</td>
-            <td>Директория с конфигурацией pam_pkcs11, включая доверенные корневые сертификаты (CACerts), списки отозванных (CRL), пользовательские сертификаты.</td>
-            <td>Конфигурационные файлы.</td>
-            <td>pam_pkcs11(8)<br><a href="https://www.altlinux.org/Pkcs11-profiles">Alt Wiki: Pkcs11-profiles</a></td>
-        </tr>
-        <tr>
-            <td>4.</td>
-            <td>/usr/bin/pkcs11_inspect<br>/usr/bin/pklogin_finder</td>
-            <td>Анализ и проверка токенов, генерация соответствий для subject_mapping у pkcs11.</td>
-            <td>Команды.</td>
-            <td>pam_pkcs11(8)</td>
-        </tr>
-        <tr>
-            <td>5.</td>
-            <td>/usr/sbin/control system-auth pkcs11</td>
-            <td>Включение аутентификации по смарт-картам в PAM через pam_pkcs11</td>
-            <td>Команда.</td>
-            <td><a href="https://www.altlinux.org/Двухфакторная_аутентификация">Alt Wiki: двухфакторная аутентификация</a></td>
-        </tr>
-        <tr>
-            <td>6.</td>
-            <td>/etc/security/pam_pkcs11/subject_mapping<br>/etc/security/pam_pkcs11/cn_mapping</td>
-            <td>Таблицы соответствия: какой сертификат соответствует какому пользователю.</td>
-            <td>Конфигурационные файлы.</td>
-            <td><a href="https://www.altlinux.org/Двухфакторная_аутентификация">Alt Wiki: двухфакторная аутентификация</a></td>
-        </tr>
-    </tbody>
-</table>
+| № | Интерфейс | Назначение | Тип интерфейса | Категории | Справка |
+|---|-----------|------------|----------------|-----------|---------|
+| 1. | /bin/login | Старт интерактивной сессии.<br>Запускается только в сессии без графического интерфейса. | Команда. | Локальные пользователи.<br><br>Сессия без графического интерфейса. | login(1) |
+| 2. | /usr/bin/id<br>/usr/bin/groups | Отображает текущий, реальный или эффективный идентификатор и идентификатор группы, в которые входит пользователь. | Команды. | Локальные пользователи.<br><br>Сетевые ресурсы. | id(1)<br>groups(1) |
+| 3. | /bin/su<br>/usr/bin/sudo | Смена пользователей и повышение привилегий. | Команды. | Локальные пользователи.<br><br>Механизмы повышения привилегий. | su(1)<br>sudo(8)<br>runas(1) |
+| 4. | /etc/shadow<br>/etc/shadow-<br>/etc/tcb/[user]/shadow<br>/etc/gshadow<br>/etc/gshadow- | БД паролей и атрибутов субъектов доступа. В данном случае атрибутом аутентификационной информации являются пароли для учётных записей пользователей. | Конфигурационные файлы. | Локальные пользователи. | shadow(5) |
+| 5. | getresuid()<br>getresgid()<br>getuid()<br>geteuid()<br>setuid()<br>setgid()<br>setegid()<br>setregid() | Получение или установка текущего реального или эффективного идентификатора пользователя или группы, в которой состоит пользователь. Обеспечение связывания пользователь-субъект. | Системные вызовы и библиотечные функции. | Локальные пользователи. | getresuid(2)<br>getresgid(2)<br>getuid(2)<br>geteuid(2)<br>setuid(2)<br>setgid(2)<br>setegid(2)<br>setregid(2) |
+| 6. | /usr/sbin/passwd | Обеспечение проверки и манипуляций с аутентификационной информацией. | Команда. | Локальные пользователи. | passwd(1, 8) |
+| 7. | /etc/pam.d/\*<br>/usr/lib64/security/pam\*.so | Реализация модулей управления типами и политиками аутентификации и файлы конфигурации этих модулей и политик. | Конфигурационные файлы и разделяемые библиотеки. | Локальные пользователи. | pam(5)<br>pam(8)<br>pam_unix(8)<br>pam_tcb(8) |
+| 8. | /etc/sssd/sssd.conf<br>/etc/krb5.conf | Настройка подключения к AD/LDAP, Kerberos и GPO. Кэширование учётных данных, авторизация через GPO/LDAP/HBAC. | Конфигурационные файлы. | Доменные пользователи.<br><br>SSSD. | sssd(8)<br>kerberos(7) |
+| 9. | /lib64/security/pam_sss.so<br>/lib64/security/pam_krb5.so<br>/lib64/security/pam_ldap.so | PAM-модули для аутентификации через AD/LDAP/Kerberos, интеграция с GPO. | Модули PAM. | Доменные пользователи.<br><br>SSSD. | pam_sss(8)<br>pam_krb5(5) |
+| 10. | /var/lib/sss/db/cache_<домен>.ldb | Кэш авторизационных данных, GPO, тикетов Kerberos. | Внутренний кэш | Доменные пользователи.<br><br>SSSD. | sss_cache(8) |
+| 11. | /etc/samba/smb.conf<br>/etc/nsswitch.conf<br>/etc/krb5.conf | Настройка Kerberos-аутентификации, сопоставления SID-UID, поддержка offline входа, GPO (через gpupdate). | Конфигурационные файлы. | Доменные пользователи.<br><br>Сетевые ресурсы.<br><br>Winbind. | smb.conf(5)<br>nsswitch.conf(5)<br>krb5.conf(5) |
+| 12. | /lib64/security/pam_winbind.so<br>/usr/lib64/nss_winbind.so | PAM и NSS-интерфейсы, авторизация по SID через RPC и Kerberos/NTLM. | Модули PAM. | Доменные пользователи.<br><br>Сетевые ресурсы.<br><br>Winbind. | pam_winbind(8) |
+| 13. | /var/lib/samba/\*.tdb | TDB-файлы с SID, UID/GID, SID-Map (winbindd_cache.tdb, idmap.tdb). | Внутренний кэш. | Доменные пользователи.<br><br>Сетевые ресурсы.<br><br>Winbind. | samba(7) |
+| 14. | /usr/bin/gpupdate<br>/usr/sbin/gpoa<br>/lib64/security/pam_oddjob_gpupdate.so | Применение групповых политик доступа (GPO) при входе через Winbind/SSSD. | Команды.<br>Модули PAM. | Доменные пользователи.<br><br>Сетевые ресурсы.<br><br>GPO. | pam_oddjob_gpupdate(8) |
+| 15. | /usr/share/lightdm/lightdm.conf.d/\*.conf<br>/etc/lightdm/lightdm.conf.d/\*.conf<br>/etc/lightdm/lightdm.conf | Настройка дисплейного менеджера LightDM. | Конфигурационные файлы. | Графическая среда (MATE). | lightdm(1) |
+| 16. | /usr/sbin/control pam-pkcs11-profile<br>/usr/sbin/control pam-pkcs11-param-set<br>/usr/sbin/control pam-pkcs11-mapping | Выбор профиля железа, логики сопоставления пользователей, параметров поведения и сообщений. | Команды.<br>Контролы. | Аутентификация по смарт-картам (PKCS#11).<br><br>Двухфакторная аутентификация. | [Alt Wiki: Pkcs11-profiles](https://www.altlinux.org/Pkcs11-profiles) |
+| 17. | /lib64/security/pam_pkcs11.so | PAM-модули для аутентификации по смарт-картам и токенам (PKCS#11, X.509). | Модули PAM. | Аутентификация по смарт-картам (PKCS#11).<br><br>Двухфакторная аутентификация. | pam_pkcs11(8) |
+| 18. | /etc/security/pam_pkcs11<br>/etc/security/cacerts<br>/etc/security/crls<br>$HOME/.eid | Директория с конфигурацией pam_pkcs11, включая доверенные корневые сертификаты (CACerts), списки отозванных (CRL), пользовательские сертификаты. | Конфигурационные файлы. | Аутентификация по смарт-картам (PKCS#11).<br><br>Двухфакторная аутентификация. | pam_pkcs11(8)<br>[Alt Wiki: Pkcs11-profiles](https://www.altlinux.org/Pkcs11-profiles) |
+| 19. | /usr/bin/pkcs11_inspect<br>/usr/bin/pklogin_finder | Анализ и проверка токенов, генерация соответствий для subject_mapping у pkcs11. | Команды. | Аутентификация по смарт-картам (PKCS#11).<br><br>Двухфакторная аутентификация. | pam_pkcs11(8) |
+| 20. | /usr/sbin/control system-auth pkcs11 | Включение аутентификации по смарт-картам в PAM через pam_pkcs11. | Команда. | Аутентификация по смарт-картам (PKCS#11).<br><br>Двухфакторная аутентификация. | [Alt Wiki: двухфакторная аутентификация](https://www.altlinux.org/Двухфакторная_аутентификация) |
+| 21. | /etc/security/pam_pkcs11/subject_mapping<br>/etc/security/pam_pkcs11/cn_mapping | Таблицы соответствия: какой сертификат соответствует какому пользователю. | Конфигурационные файлы. | Аутентификация по смарт-картам (PKCS#11).<br><br>Двухфакторная аутентификация. | [Alt Wiki: двухфакторная аутентификация](https://www.altlinux.org/Двухфакторная_аутентификация) |
 
 **Краткое описание технической реализации меры ИАФ.1**
 
